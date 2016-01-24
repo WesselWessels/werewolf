@@ -1,0 +1,63 @@
+<!doctype html>
+<html ng-app="gameApp">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script type="text/javascript" src="js/ngDialog.min.js"></script>
+    <link rel="stylesheet" href="css/ngDialog-theme-default.min.css">  
+    <script src="app.js"></script>
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
+      <link rel="stylesheet" href="css/ngDialog.min.css">
+    <link rel="stylesheet" href="app.css">
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  </head>
+  <body>
+      
+    <h2>ON</h2>
+    <div ng-controller="GameController as game">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div ng-show="game.showStart">
+                    <h2>Players</h2>
+                    <ul class="unstyled">
+                        <li ng-repeat="player in game.players">
+                             <input type="checkbox" ng-model="player.selected">
+                            {{player.name}}
+                        </li>
+                    </ul>
+                    <form ng-submit="game.addPlayer()">
+                        <input type="text" ng-model="game.newPlayer" size="30" placeholder="add new player here">
+                        <input class="btn-primary" type="submit" value="add">
+                    </form>
+
+                    <h2>Roles {{game.selectedRoles()}} of {{game.requiredRoles()}}</h2>
+
+                    <ul>
+                        <li ng-repeat="role in game.roles">
+                            <input type="checkbox" ng-model="role.selected">
+                            <button class="btn btn-xs {{game.getRoleButtonClass($index)}}" ng-click="game.roleButtonClicked($index)">{{role.name}}</button>
+                        </li>
+                    </ul>
+                    <button class="btn btn-success" ng-click="game.startGame()" ng-show="game.isReady()">Start</button>
+                </div>
+
+                <div ng-show="game.showGame">
+                    <button class="btn" ng-click="game.stopGame()">Stop</button>
+                    <ul>
+                        <li ng-repeat="player in game.actualPlayers">
+                            <input type="checkbox" ng-model="player.selected">
+                            <button class="btn {{game.getButtonClass($index)}}" ng-click="game.selectPlayer($index)">{{player.name}}</button>
+                        </li>
+                    </ul>
+                    <button class="btn btn-danger" ng-show="game.showButton()" ng-click="game.showButtonPressed()">Show</button>
+                    <button class="btn btn-danger" ng-show="game.showSwitch()" ng-click="game.switchButtonPressed()">Switch</button>
+
+
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+       </div>
+    </div>
+      
+  </body>
+</html>
